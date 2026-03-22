@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>薪心公益 · Lilac</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#faf7f2;--cream2:#f4efe6;--cream3:#ece5d8;
+  --ink:#2a2520;--ink2:#4a4540;--muted:#8a8078;--muted2:#b5ada3;
+  --warm:#c4956a;--warm2:#ddb896;--warm3:#f0e4d4;
+  --sage:#7aaa82;--sage2:#d4ead7;--sage3:#eef6ef;--sage4:#3a7a45;
+  --border:rgba(42,37,32,0.08);--border2:rgba(42,37,32,0.14);
+  --serif:'Playfair Display',serif;--sans:'Jost',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.75;overflow-x:hidden}
+::selection{background:var(--sage2);color:var(--ink)}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--cream)}::-webkit-scrollbar-thumb{background:var(--muted2);border-radius:2px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.4rem 3.5rem;display:flex;align-items:center;justify-content:space-between;transition:all 0.5s}
+nav.scrolled{background:rgba(250,247,242,0.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 3.5rem}
+.back{font-family:var(--sans);font-size:0.72rem;letter-spacing:0.12em;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.2s}
+.back:hover{color:var(--ink)}
+.logo{font-family:var(--serif);font-size:1.1rem;font-style:italic;font-weight:400;color:var(--muted);text-decoration:none}
+
+/* HERO — cinematic full-bleed */
+#hero{min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:flex-end}
+.hero-photo{position:absolute;inset:0}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to top,
+    rgba(15,30,18,0.92) 0%,
+    rgba(15,30,18,0.55) 45%,
+    rgba(15,30,18,0.25) 100%
+  );
+}
+.hero-content{
+  position:relative;z-index:2;
+  width:100%;padding:5rem 4rem;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:3rem;
+}
+.hero-text-block{max-width:520px}
+.hero-eyebrow{font-family:var(--sans);font-size:0.68rem;letter-spacing:0.26em;text-transform:uppercase;color:rgba(180,230,185,0.7);margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.7s 0.3s forwards}
+.hero-title{font-family:var(--serif);font-size:clamp(2.8rem,5vw,5rem);font-weight:400;line-height:1.05;color:#fff;margin-bottom:1.5rem;text-shadow:0 2px 20px rgba(0,0,0,0.3);opacity:0;animation:fadeUp 0.9s 0.55s forwards}
+.hero-title em{font-style:italic;color:rgba(180,230,185,0.85)}
+.hero-quote{font-family:var(--serif);font-size:1.05rem;font-style:italic;color:rgba(255,255,255,0.6);line-height:1.75;max-width:400px;opacity:0;animation:fadeUp 0.9s 0.8s forwards}
+/* frosted info panel */
+.hero-panel{
+  flex-shrink:0;margin-bottom:0.5rem;
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,0.2);border-radius:16px;
+  padding:1.75rem 2rem;min-width:200px;
+  opacity:0;animation:fadeUp 0.9s 1s forwards;
+}
+.hero-panel-team{font-family:var(--serif);font-size:1.5rem;font-style:italic;font-weight:400;color:#fff;margin-bottom:0.3rem}
+.hero-panel-label{font-family:var(--sans);font-size:0.72rem;color:rgba(255,255,255,0.55);letter-spacing:0.06em;line-height:1.6}
+
+/* SECTIONS */
+.sec{padding:6rem 4rem;max-width:1100px;margin:0 auto}
+.section-tag{display:inline-flex;align-items:center;gap:0.6rem;font-family:var(--sans);font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--sage4);margin-bottom:1rem}
+.section-tag::before{content:'';display:block;width:1.5rem;height:1px;background:var(--sage)}
+.section-title{font-family:var(--serif);font-size:clamp(2rem,3.5vw,3rem);font-weight:400;line-height:1.15;color:var(--ink);margin-bottom:2rem}
+.section-title em{font-style:italic;color:var(--sage)}
+
+/* STORY */
+#story{background:var(--cream)}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:center}
+/* photo with offset decorative frame */
+.story-img-wrap{position:relative;padding:1.5rem 0 0 1.5rem}
+.story-img-frame{
+  position:absolute;top:0;left:0;right:1.5rem;bottom:1.5rem;
+  border:2px solid var(--sage2);border-radius:4px;
+}
+.story-img-card{
+  position:relative;border-radius:4px;overflow:hidden;
+  box-shadow:0 20px 56px rgba(42,37,32,0.14);
+}
+.story-img-card img{width:100%;display:block;aspect-ratio:4/3;object-fit:cover;object-position:center 25%}
+.story-img-badge{
+  position:absolute;top:1rem;left:1rem;
+  background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);
+  border-radius:8px;padding:0.6rem 0.9rem;
+  font-family:var(--sans);font-size:0.7rem;color:var(--sage4);letter-spacing:0.06em;
+}
+.story-text p{font-family:var(--sans);font-size:0.97rem;line-height:1.95;color:var(--ink2);margin-bottom:1.3rem}
+.story-text strong{color:var(--ink);font-weight:400;border-bottom:1px solid var(--sage);padding-bottom:1px}
+
+/* COURSES */
+#courses{background:var(--sage3);position:relative;overflow:hidden}
+#courses::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(122,170,130,0.12) 0%,transparent 70%);bottom:-150px;right:-100px;pointer-events:none;animation:breathe 9s ease-in-out infinite}
+.courses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2.5rem}
+.course-card{
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.75);border-radius:14px;padding:2rem;
+  transition:all 0.3s;position:relative;overflow:hidden;
+}
+.course-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--sage),var(--sage2));transform:scaleX(0);transform-origin:left;transition:transform 0.35s}
+.course-card:hover{transform:translateY(-4px);background:rgba(255,255,255,0.82);box-shadow:0 12px 40px rgba(122,170,130,0.12)}
+.course-card:hover::before{transform:scaleX(1)}
+.course-icon{font-size:1.4rem;margin-bottom:0.9rem;display:block}
+.course-name{font-family:var(--serif);font-size:1.15rem;font-weight:400;color:var(--ink);margin-bottom:0.5rem}
+.course-desc{font-family:var(--sans);font-size:0.82rem;line-height:1.82;color:var(--muted)}
+
+/* GAINED */
+#gained{background:var(--cream2)}
+.gained-inner{max-width:680px}
+.gained-inner p{font-family:var(--sans);font-size:0.97rem;line-height:1.95;color:var(--ink2);margin-bottom:1.3rem}
+.gained-inner strong{color:var(--ink);font-weight:400;border-bottom:1px solid var(--sage)}
+.big-quote{font-family:var(--serif);font-size:clamp(1.3rem,2.3vw,1.9rem);font-weight:400;font-style:italic;color:var(--ink);line-height:1.55;border-left:2px solid var(--sage);padding:1.4rem 1.8rem;margin:2.5rem 0;background:rgba(122,170,130,0.06);border-radius:0 8px 8px 0}
+.milestones{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
+.milestone{padding:1.25rem;border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,0.65);text-align:center;transition:border-color 0.3s,transform 0.3s}
+.milestone:hover{border-color:var(--sage);transform:translateY(-2px)}
+.milestone-val{font-family:var(--serif);font-size:1.8rem;font-weight:400;color:var(--sage);display:block}
+.milestone-label{font-family:var(--sans);font-size:0.7rem;color:var(--muted);margin-top:0.2rem;letter-spacing:0.05em}
+
+.page-contact{padding:6rem 4rem;background:var(--cream);text-align:center}
+.page-contact h2{font-family:var(--serif);font-size:clamp(2rem,4vw,3.5rem);font-weight:400;color:var(--ink);margin-bottom:1rem}
+.page-contact h2 em{font-style:italic;color:var(--sage)}
+.page-contact p{font-family:var(--sans);color:var(--muted);max-width:380px;margin:0 auto 2.5rem;font-size:0.95rem;line-height:1.85}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.9rem 2.5rem;border-radius:100px;font-family:var(--sans);font-size:0.8rem;font-weight:400;letter-spacing:0.08em;text-decoration:none;transition:all 0.25s;border:1px solid var(--ink);color:var(--cream);background:var(--ink)}
+.btn:hover{background:var(--ink2)}
+
+footer{padding:1.75rem 4rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+footer span{font-family:var(--sans);font-size:0.75rem;color:var(--muted)}
+footer a{font-family:var(--sans);font-size:0.75rem;color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--ink)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.95s cubic-bezier(0.16,1,0.3,1),transform 0.95s cubic-bezier(0.16,1,0.3,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:0.12s}.d2{transition-delay:0.24s}.d3{transition-delay:0.36s}
+
+@media(max-width:900px){
+  nav,nav.scrolled{padding:1.25rem 1.75rem}
+  .hero-content{padding:4rem 2rem;flex-direction:column;gap:2rem;align-items:flex-start}
+  .story-grid,.courses-grid{grid-template-columns:1fr}
+  .story-img-wrap{padding:1rem 0 0 1rem}
+  .sec,.page-contact{padding:4rem 1.75rem}
+  footer{flex-direction:column;gap:0.5rem;text-align:center;padding:1.5rem}
+}
+</style>
+</head>
+<body>
+<nav id="nav">
+  <a class="back" href="index.html">← 返回主页</a>
+  <a class="logo" href="index.html">Lilac ·</a>
+</nav>
+
+<section id="hero">
+  <div class="hero-photo">
+    <img src="photo-volunteer-bg.jpg" alt="Volunteer background">
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-text-block">
+      <p class="hero-eyebrow">Identity · 志愿教育者</p>
+      <h1 class="hero-title">每一颗种子，<br><em>都值得一片光。</em></h1>
+      <p class="hero-quote">教育不只是传递知识，更是打开一扇窗——让孩子看见更多可能的自己。</p>
+    </div>
+    <div class="hero-panel">
+      <div class="hero-panel-team">薪心</div>
+      <div class="hero-panel-label">公益创业团队<br>佛山南海 · 候鸟家庭<br>政府投资支持</div>
+    </div>
+  </div>
+</section>
+
+<section id="story" style="padding:0">
+  <div class="sec">
+    <div class="story-grid">
+      <div class="story-img-wrap reveal">
+        <div class="story-img-frame"></div>
+        <div class="story-img-card">
+          <img src="photo-volunteer.jpg" alt="职业体验课" style="filter:blur(5px);transform:scale(1.03)">
+          <div class="story-img-badge">职业体验课 · 佛山南海</div>
+          <div style="position:absolute;bottom:0.8rem;right:0.9rem;font-family:var(--sans);font-size:0.62rem;color:rgba(255,255,255,0.5);letter-spacing:0.06em">图像模糊 · 保护隐私</div>
+        </div>
+      </div>
+      <div class="story-text reveal d1">
+        <span class="section-tag">故事</span>
+        <h2 class="section-title">从小社团，<br><em>到独立团队。</em></h2>
+        <p>薪心公益创业团队，起步于校园里一个小小的志愿社团。我们从一群对公益抱有热情的学生出发，<strong>一步步走向独立运营，并最终获得了政府的投资支持</strong>，把这份初心变成了可持续的行动。</p>
+        <p>我们的服务对象是佛山南海地区的候鸟家庭——那些随父母辗转异乡、生活在城市边缘的孩子们。他们有旺盛的求知欲，有闪光的天赋，只是缺少一个被认真看见的机会。</p>
+        <p>我们想成为那个看见他们的人。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="courses" style="padding:0">
+  <div class="sec">
+    <div class="reveal">
+      <span class="section-tag">课程设计</span>
+      <h2 class="section-title">我们教的，<em>不只是知识。</em></h2>
+    </div>
+    <div class="courses-grid">
+      <div class="course-card reveal d1"><span class="course-icon">🏺</span><div class="course-name">非遗文化课</div><p class="course-desc">带孩子们走近那些正在消逝的传统技艺——剪纸、陶艺、手工……让文化的根在他们心里悄悄扎下。</p></div>
+      <div class="course-card reveal d2"><span class="course-icon">🔭</span><div class="course-name">职业体验课</div><p class="course-desc">邀请各行各业的人来讲述他们的故事，让孩子们在故事里看见更多种可能的未来——而不只是眼前的一条路。</p></div>
+      <div class="course-card reveal d3"><span class="course-icon">🗺️</span><div class="course-name">区域地理课</div><p class="course-desc">认识脚下的土地——佛山的历史、南海的变迁，帮助孩子们在这座城市里找到属于自己的坐标与归属感。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="gained" style="padding:0">
+  <div class="sec">
+    <div class="gained-inner reveal">
+      <span class="section-tag">收获</span>
+      <h2 class="section-title">这段路，<em>给了我什么。</em></h2>
+      <p>做志愿者很久之后，我才真正意识到：改变不是单向流动的。我以为自己是去给予，但每一次走进那个教室，我收获的，远比我带去的更多。</p>
+      <p>孩子们的眼睛是最诚实的。他们会在你讲到某个故事时突然眼睛发光，会在课程结束后跑过来问"老师，这个我可以自己做吗"。那些瞬间告诉我：<strong>教育的本质，是点燃，而不是填充</strong>。</p>
+      <div class="big-quote">"我学会了如何把复杂的事情说得简单，也学会了如何在简单的事情里看见深意。"</div>
+      <p>从课程设计到团队运营，从一个人的想法到一群人的行动——这段经历让我第一次感受到，什么叫做把一件事从无到有地做成。</p>
+      <div class="milestones">
+        <div class="milestone"><span class="milestone-val">🏆</span><div class="milestone-label">政府投资支持</div></div>
+        <div class="milestone"><span class="milestone-val">🏘️</span><div class="milestone-label">走入多个社区</div></div>
+        <div class="milestone"><span class="milestone-val">✦</span><div class="milestone-label">仍在继续</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="page-contact reveal">
+  <h2>想聊聊公益？<em>Let's connect.</em></h2>
+  <p>如果你也对志愿教育、社区服务感兴趣，或者想了解薪心公益团队——欢迎来聊。</p>
+  <a href="/cdn-cgi/l/email-protection#4a0e382439670623262b290a253f3e2625252164292527" class="btn">✉ <span class="__cf_email__" data-cfemail="9fdbedf1ecb2d3f6f3fefcdff0eaebf3f0f0f4b1fcf0f2">[email&#160;protected]</span></a>
+</div>
+
+<div style="padding:2.5rem 3.5rem;text-align:center;border-top:1px solid var(--border)">
+  <p style="font-family:'Playfair Display',serif;font-size:0.95rem;font-style:italic;color:var(--muted2);letter-spacing:0.03em">— 还在更新，这个故事还在续写。 —</p>
+</div>
+<footer><span>© 2026 莱拉克 · Lilac Zha</span><a href="index.html">← 返回主页</a></footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:t

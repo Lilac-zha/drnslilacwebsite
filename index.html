@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>莱拉克 · Lilac Zha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@200;300;400;500&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#faf7f2;--cream2:#f4efe6;--cream3:#ece5d8;
+  --ink:#2a2520;--ink2:#4a4540;--muted:#8a8078;--muted2:#b5ada3;
+  --warm:#c4956a;--warm2:#ddb896;--warm3:#f0e4d4;
+  --sage:#7aaa82;--sage2:#d4ead7;--sage3:#eef6ef;
+  --lavender:#9b94c0;--lav2:#e4e2f8;--lav3:#f4f3fb;
+  --border:rgba(42,37,32,0.08);--border2:rgba(42,37,32,0.14);
+  --serif:'Playfair Display',serif;
+  --sans:'Jost',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.75;overflow-x:hidden}
+::selection{background:var(--warm3);color:var(--ink)}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--cream)}::-webkit-scrollbar-thumb{background:var(--muted2);border-radius:2px}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:1.6rem 3.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:all 0.5s ease;
+  background:transparent;
+}
+nav.scrolled{
+  background:rgba(250,247,242,0.93);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:1rem 3.5rem;
+}
+.logo{
+  font-family:var(--serif);font-size:1.15rem;font-style:italic;font-weight:400;
+  color:var(--cream);text-decoration:none;letter-spacing:0.02em;
+  transition:color 0.5s;
+}
+nav.scrolled .logo{color:var(--ink)}
+.nav-links{display:flex;gap:2.25rem;list-style:none}
+.nav-links a{
+  font-family:var(--sans);font-size:0.72rem;font-weight:400;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:rgba(255,255,255,0.75);text-decoration:none;transition:color 0.2s;
+}
+nav.scrolled .nav-links a{color:var(--muted)}
+.nav-links a:hover{color:var(--cream)!important}
+nav.scrolled .nav-links a:hover{color:var(--ink)!important}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:8rem 2rem 5rem;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background-image:url('photo-hero.jpg');
+  background-size:cover;background-position:center 40%;
+  transform:scale(1.05);
+  animation:heroZoom 20s ease-in-out infinite alternate;
+}
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(
+    180deg,
+    rgba(20,16,12,0.55) 0%,
+    rgba(20,16,12,0.35) 40%,
+    rgba(20,16,12,0.6) 100%
+  );
+}
+.hero-shimmer{position:absolute;inset:0;z-index:2;pointer-events:none}
+.hero-content{position:relative;z-index:3}
+.hero-eyebrow{
+  font-family:var(--sans);font-size:0.7rem;letter-spacing:0.28em;text-transform:uppercase;
+  color:rgba(255,255,255,0.6);margin-bottom:2rem;
+  opacity:0;animation:fadeUp 0.7s 0.4s ease forwards;
+}
+.hero-name{
+  font-family:var(--serif);
+  font-size:clamp(4rem,10vw,9.5rem);
+  font-weight:400;line-height:0.9;letter-spacing:-0.01em;
+  color:#fff;
+  opacity:0;animation:fadeUp 1s 0.65s ease forwards;
+  text-shadow:0 2px 40px rgba(0,0,0,0.3);
+}
+.hero-name .en{
+  display:block;font-style:italic;font-size:0.52em;font-weight:400;
+  color:rgba(255,255,255,0.72);letter-spacing:0.05em;margin-top:0.55rem;
+}
+.hero-tagline{
+  margin-top:2.5rem;
+  font-family:var(--serif);font-size:clamp(0.95rem,1.8vw,1.25rem);
+  font-weight:400;font-style:italic;
+  color:rgba(255,255,255,0.8);max-width:540px;line-height:1.85;
+  opacity:0;animation:fadeUp 0.9s 0.95s ease forwards;
+  text-shadow:0 1px 12px rgba(0,0,0,0.3);
+}
+.hero-tags{
+  margin-top:2.5rem;display:flex;flex-wrap:wrap;justify-content:center;gap:0.55rem;
+  opacity:0;animation:fadeUp 0.9s 1.2s ease forwards;
+}
+.tag{
+  display:inline-flex;align-items:center;gap:0.35rem;
+  padding:0.4rem 1rem;border:1px solid rgba(255,255,255,0.25);border-radius:100px;
+  font-family:var(--sans);font-size:0.75rem;font-weight:300;
+  color:rgba(255,255,255,0.85);
+  background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);
+  transition:all 0.25s;cursor:default;letter-spacing:0.04em;
+}
+nav.scrolled~* .tag,.tag{transition:all 0.25s}
+.tag:hover{border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.18)}
+.tag.green-tag{border-color:rgba(122,200,130,0.4);background:rgba(122,170,130,0.15);color:rgba(180,240,185,0.95)}
+.tag-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.6);flex-shrink:0}
+.tag-dot.sage{background:rgba(122,200,130,0.8)}.tag-dot.lav{background:rgba(200,196,235,0.8)}
+.hero-scroll{
+  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:0.5rem;z-index:3;
+  opacity:0;animation:fadeUp 0.8s 1.6s ease forwards;
+}
+.scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,0.5),transparent);animation:scrollPulse 2.5s 2s infinite}
+.scroll-text{font-family:var(--sans);font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45)}
+
+/* ── SECTION ── */
+.section-wrap{padding:7rem 3.5rem;max-width:1200px;margin:0 auto}
+.section-tag{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  font-family:var(--sans);font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--warm);margin-bottom:1.1rem;
+}
+.section-tag::before{content:'';display:block;width:1.5rem;height:1px;background:var(--warm)}
+.section-title{
+  font-family:var(--serif);font-size:clamp(2rem,3.8vw,3.2rem);
+  font-weight:400;line-height:1.15;color:var(--ink);margin-bottom:1rem;
+}
+.section-title em{font-style:italic;color:var(--warm)}
+
+/* ── ABOUT ── */
+#about{background:var(--cream);position:relative;overflow:hidden}
+.about-blob{
+  position:absolute;width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(196,149,106,0.06) 0%,transparent 70%);
+  top:-150px;right:-150px;pointer-events:none;
+  animation:breathe 10s ease-in-out infinite;
+}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;position:relative}
+.about-text-col{}
+.about-body{font-family:var(--sans);font-size:0.98rem;line-height:1.95;color:var(--ink2);margin-bottom:2rem}
+.about-body p{margin-bottom:1.3rem}
+.about-body strong{color:var(--ink);font-weight:400;border-bottom:1px solid var(--warm2);padding-bottom:1px}
+.about-quote{
+  margin:2.5rem 0;padding:1.4rem 1.8rem;
+  border-left:2px solid var(--warm2);
+  font-family:var(--serif);font-size:1.25rem;font-style:italic;font-weight:400;
+  color:var(--ink2);line-height:1.7;
+  background:rgba(196,149,106,0.04);border-radius:0 6px 6px 0;
+}
+.mini-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:0.7rem;margin-top:2rem}
+.mini-card{
+  padding:1rem;border:1px solid var(--border);border-radius:10px;
+  background:rgba(255,255,255,0.7);text-align:center;
+  transition:border-color 0.3s,transform 0.3s;
+}
+.mini-card:hover{border-color:var(--warm2);transform:translateY(-2px)}
+.mini-card-val{font-family:var(--serif);font-size:1.5rem;font-weight:400;color:var(--warm);display:block}
+.mini-card-label{font-family:var(--sans);font-size:0.7rem;color:var(--muted);margin-top:0.2rem;letter-spacing:0.06em}
+
+/* tilted portrait */
+.about-visual-col{position:relative;min-height:500px}
+.portrait-tilt{
+  position:absolute;top:3rem;left:50%;transform:translateX(-50%) rotate(-4deg);
+  width:260px;
+  box-shadow:0 20px 60px rgba(42,37,32,0.18),0 4px 16px rgba(42,37,32,0.1);
+  border-radius:4px;overflow:hidden;
+  transition:transform 0.4s ease;
+}
+.portrait-tilt:hover{transform:translateX(-50%) rotate(-1.5deg) scale(1.02)}
+.portrait-tilt img{width:100%;display:block}
+.portrait-caption{
+  position:absolute;top:3.5rem;left:50%;transform:translateX(calc(-50% + 160px)) rotate(4deg);
+  font-family:var(--serif);font-size:0.85rem;font-style:italic;color:var(--muted);
+  white-space:nowrap;
+}
+
+/* ── IDENTITIES ── */
+#identities{background:var(--cream2);position:relative;overflow:hidden}
+.id-blob{position:absolute;width:450px;height:450px;border-radius:50%;background:radial-gradient(circle,rgba(122,170,130,0.07) 0%,transparent 70%);bottom:-120px;left:-100px;pointer-events:none;animation:breathe 12s 2s ease-in-out infinite}
+.id-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;max-width:1100px}
+.identities-intro{max-width:520px;color:var(--ink2);margin-bottom:3.5rem;font-family:var(--sans);font-size:0.97rem;line-height:1.9}
+.id-card{
+  background:rgba(255,255,255,0.6);backdrop-filter:blur(10px);
+  border:1px solid var(--border);border-radius:14px;padding:2rem;
+  transition:all 0.35s ease;position:relative;overflow:hidden;
+}
+.id-card::after{
+  content:'';position:absolute;inset:0;border-radius:14px;
+  background:linear-gradient(135deg,rgba(255,255,255,0.4) 0%,transparent 60%);
+  pointer-events:none;
+}
+.id-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--warm),var(--warm2));transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease}
+.id-card:hover{transform:translateY(-5px);border-color:rgba(196,149,106,0.3);box-shadow:0 16px 48px rgba(196,149,106,0.12)}
+.id-card:hover::before{transform:scaleX(1)}
+.id-icon{font-size:1.5rem;margin-bottom:0.9rem;display:block}
+.id-name{font-family:var(--serif);font-size:1.2rem;font-weight:400;color:var(--ink);margin-bottom:0.55rem}
+.id-desc{font-family:var(--sans);font-size:0.83rem;line-height:1.82;color:var(--muted)}
+.id-arrow{display:inline-flex;align-items:center;gap:0.3rem;margin-top:1rem;font-family:var(--sans);font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--warm);text-decoration:none;opacity:0;transition:opacity 0.3s}
+.id-card:hover .id-arrow{opacity:1}
+.id-badge{display:inline-block;font-family:var(--sans);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.18rem 0.6rem;border-radius:100px;background:var(--warm3);color:var(--warm);margin-bottom:0.7rem}
+
+/* ── VIBES ── */
+#vibes{background:var(--cream);position:relative;overflow:hidden}
+.vibes-blob{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(155,148,192,0.06) 0%,transparent 70%);top:50%;right:-80px;transform:translateY(-50%);pointer-events:none;animation:breathe 9s 1s ease-in-out infinite}
+.vibes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:1100px;margin-top:3.5rem}
+.vibe-card{border:1px solid var(--border);border-radius:12px;padding:1.75rem 1.5rem;background:rgba(255,255,255,0.55);transition:all 0.3s}
+.vibe-card:hover{background:rgba(255,255,255,0.9);border-color:var(--border2);transform:translateY(-2px)}
+.vibe-icon{font-size:1.4rem;display:block;margin-bottom:0.7rem}
+.vibe-name{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--ink);margin-bottom:0.4rem}
+.vibe-desc{font-family:var(--sans);font-size:0.8rem;color:var(--muted);line-height:1.75}
+.enfp-card{
+  grid-column:span 2;
+  background:linear-gradient(135deg,var(--sage3) 0%,rgba(255,255,255,0.55) 100%);
+  border-color:rgba(122,170,130,0.25);
+  display:flex;align-items:flex-start;gap:1.75rem;
+}
+.enfp-big{font-family:var(--serif);font-size:3.2rem;font-weight:400;color:var(--sage);flex-shrink:0;line-height:1;padding-top:0.15rem}
+.enfp-title{font-family:var(--serif);font-size:1rem;font-style:italic;color:#3a7a45;margin-bottom:0.15rem}
+.enfp-subtitle{font-family:var(--sans);font-size:0.68rem;color:var(--sage);letter-spacing:0.08em;margin-bottom:0.55rem}
+.enfp-desc{font-family:var(--sans);font-size:0.79rem;color:var(--muted);line-height:1.78}
+.enfp-traits{display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.7rem}
+.enfp-trait{font-family:var(--sans);font-size:0.67rem;padding:0.18rem 0.6rem;border-radius:100px;background:rgba(122,170,130,0.15);color:#3a7a45;border:1px solid rgba(122,170,130,0.25);letter-spacing:0.04em}
+
+/* ── NOW ── */
+#now{background:var(--cream2);position:relative;overflow:hidden}
+.now-blob{position:absolute;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(196,149,106,0.05) 0%,transparent 70%);top:-60px;right:15%;pointer-events:none;animation:breathe 11s 3s ease-in-out infinite}
+.now-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;max-width:1100px}
+.now-list{list-style:none;margin-top:2rem}
+.now-item{display:flex;gap:1.2rem;padding:1.2rem 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.now-item:last-child{border-bottom:none}
+.now-cat{font-family:var(--sans);font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--warm);min-width:3.5rem;padding-top:0.25rem;flex-shrink:0}
+.now-val{font-family:var(--sans);font-size:0.9rem;color:var(--ink);margin-bottom:0.15rem;font-weight:300}
+.now-sub{font-family:var(--sans);font-size:0.76rem;color:var(--muted)}
+.now-right{display:flex;flex-direction:column;gap:1.2rem}
+.now-feature{padding:1.6rem;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,0.65)}
+.now-feature-label{font-family:var(--sans);font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:0.55rem}
+.now-feature-title{font-family:var(--serif);font-size:1.25rem;font-weight:400;color:var(--ink);margin-bottom:0.3rem;line-height:1.4}
+.now-feature-sub{font-family:var(--sans);font-size:0.8rem;color:var(--muted);line-height:1.75}
+.now-thought{padding:1.6rem;border-left:2px solid var(--warm2);background:rgba(196,149,106,0.04);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:1.05rem;font-style:italic;font-weight:400;color:var(--ink2);line-height:1.8}
+
+/* ── CONTACT ── */
+#contact{padding:9rem 3.5rem;background:var(--cream);text-align:center;position:relative;overflow:hidden}
+.contact-blob{position:absolute;width:550px;height:550px;border-radius:50%;background:radial-gradient(circle,rgba(196,149,106,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;animation:breathe 8s ease-in-out infinite}
+.contact-inner{position:relative;z-index:1}
+.contact-deco{font-family:var(--serif);font-size:clamp(3rem,7vw,7.5rem);font-weight:400;line-height:1;color:var(--ink);margin-bottom:1.5rem}
+.contact-deco em{font-style:italic;color:var(--warm)}
+.contact-sub{font-family:var(--sans);font-size:0.97rem;color:var(--muted);max-width:400px;margin:0 auto 3rem;line-height:1.9}
+.btn{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  padding:0.9rem 2.5rem;border-radius:100px;
+  font-family:var(--sans);font-size:0.8rem;font-weight:400;letter-spacing:0.08em;
+  text-decoration:none;transition:all 0.28s;
+  border:1px solid var(--ink);color:var(--cream);background:var(--ink);
+}
+.btn:hover{background:var(--ink2);border-color:var(--ink2);transform:translateY(-1px)}
+
+/* ── FOOTER ── */
+footer{padding:1.75rem 3.5rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+footer span{font-family:var(--sans);font-size:0.75rem;color:var(--muted)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollPulse{0%,100%{opacity:0.3;transform:scaleY(1)}50%{opacity:0.7;transform:scaleY(1.1)}}
+@keyframes heroZoom{0%{transform:scale(1.05)}100%{transform:scale(1.12)}}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.18);opacity:0.75}}
+@keyframes shimmerMove{0%{transform:translateX(-100%) skewX(-20deg)}100%{transform:translateX(300%) skewX(-20deg)}}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.95s cubic-bezier(0.16,1,0.3,1),transform 0.95s cubic-bezier(0.16,1,0.3,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:0.1s}.d2{transition-delay:0.2s}.d3{transition-delay:0.3s}.d4{transition-delay:0.4s}
+
+@media(max-width:960px){
+  .section-wrap{padding:5rem 1.75rem}
+  nav{padding:1.25rem 1.75rem}
+  nav.scrolled{padding:0.9rem 1.75rem}
+  .nav-links{display:none}
+  .about-inner{grid-template-columns:1fr;gap:2.5rem}
+  .about-visual-col{min-height:320px}
+  .portrait-tilt{position:relative;top:auto;left:auto;transform:rotate(-3deg);margin:0 auto}
+  .portrait-caption{display:none}
+  .id-grid{grid-template-columns:1fr 1fr}
+  .vibes-grid{grid-template-columns:1fr 1fr}
+  .enfp-card{grid-column:span 2}
+  .now-grid{grid-template-columns:1fr;gap:2.5rem}
+  #contact{padding:6rem 1.75rem}
+  footer{flex-direction:column;gap:0.5rem;text-align:center;padding:1.5rem}
+}
+@media(max-width:560px){
+  .id-grid,.vibes-grid{grid-template-columns:1fr}
+  .enfp-card{grid-column:auto;flex-direction:column;gap:1rem}
+  .mini-cards{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="logo" href="#hero">Lilac ·</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#identities">Identities</a></li>
+    <li><a href="#vibes">Vibes</a></li>
+    <li><a href="#now">Now</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <canvas class="hero-shimmer" id="shimmerCanvas"></canvas>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Welcome — 欢迎来到我的角落</p>
+    <h1 class="hero-name">莱拉克<span class="en">Lilac Zha</span></h1>
+    <p class="hero-tagline">在时代的泡沫里辨认星光，<br>让感性的自己与理性的奇点相遇。</p>
+    <div class="hero-tags">
+      <span class="tag"><span class="tag-dot"></span>AI & 认知科学</span>
+      <span class="tag"><span class="tag-dot sage"></span>辩手</span>
+      <span class="tag"><span class="tag-dot lav"></span>塔罗师</span>
+      <span class="tag"><span class="tag-dot sage"></span>志愿教育</span>
+      <span class="tag"><span class="tag-dot"></span>AI 创作者</span>
+      <span class="tag green-tag">✦ ENFP</span>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span class="scroll-text">探索</span></div>
+</section>
+
+<section id="about">
+  <div class="about-blob"></div>
+  <div class="section-wrap">
+    <div class="about-inner">
+      <div class="about-text-col">
+        <div class="reveal">
+          <span class="section-tag">01 · About me</span>
+          <h2 class="section-title">在斑斓之中，<br><em>看见自己。</em></h2>
+        </div>
+        <div class="about-body reveal d1">
+          <p>热爱心理学的计算机学生，从 AI 走向认知科学，恰好赶上了这个时代最汹涌的浪潮。我始终相信，<strong>人生与世界都是一场巨大的游戏场</strong>——重要的从来不是赢，而是去体验，去感受，在斑斓之中看见自己，也看见更多的人。</p>
+          <p>我有两种并行的本能：<strong>观察与共情</strong>。一面拆解事物的前因后果、结构与逻辑；一面俯身进入那些脆弱而真实的瞬间，感受它，而不只是分析它。</p>
+          <p>在创作与协作之间，我也逐渐找到了另一个自己——<strong>用 AI 做数字创作</strong>，探索图像、视频与音频的边界；在团队项目中担任设计与开发之间的桥梁，从思路构建到原型设计，喜欢把混沌变成可执行的形状。</p>
+        </div>
+        <blockquote class="about-quote reveal d2">一生温暖纯良，不舍爱与理性。</blockquote>
+        <div class="mini-cards reveal d3">
+          <div class="mini-card"><span class="mini-card-val">🏙️</span><div class="mini-card-label">广州 → 爱丁堡</div></div>
+          <div class="mini-card"><span class="mini-card-val">ENFP</span><div class="mini-card-label">MBTI</div></div>
+          <div class="mini-card"><span class="mini-card-val">∞</span><div class="mini-card-label">好奇心</div></div>
+        </div>
+      </div>
+      <div class="about-visual-col reveal d2">
+        <div class="portrait-tilt">
+          <img src="photo-portrait.jpg" alt="Lilac">
+        </div>
+        <div class="portrait-caption">Lilac · 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="identities">
+  <div class="id-blob"></div>
+  <div class="section-wrap">
+    <div class="reveal">
+      <span class="section-tag">02 · Identities</span>
+      <h2 class="section-title">我是谁——<em>多面回答。</em></h2>
+    </div>
+    <p class="identities-intro reveal d1">每一个标签背后都是一段真实的故事。我不喜欢用一个身份定义自己，所以这里有六个。</p>
+    <div class="id-grid">
+      <div class="id-card reveal">
+        <span class="id-icon">🤖</span>
+        <div class="id-name">AI 学生 & 认知科学</div>
+        <p class="id-desc">从计算机与 AI 出发，转向认知科学。始终着迷于同一个问题：机器在"理解"语言的时候，和人真的一样吗？技术的边界，往往也是人性最清晰的镜子。</p>
+      </div>
+      <div class="id-card reveal d1">
+        <span class="id-icon">🎤</span>
+        <div class="id-name">辩手</div>
+        <p class="id-desc">从高中班级赛起步，在大学辩论社经历新生杯与校园杯的磨砺。偏爱价值辩论——那些关于"应不应该"的题目，往往能打开看世界最宽的那扇窗。</p>
+      </div>
+      <div class="id-card reveal d2" style="cursor:pointer" onclick="location.href='tarot.html'">
+        <span class="id-badge">独立页面</span>
+        <span class="id-icon">🔮</span>
+        <div class="id-name">塔罗师</div>
+        <p class="id-desc">缘起于童年的卡牌游戏，成真于某个冥冥之中的下午。入门至今第四年，逾百个占卜案例。塔罗是工具，倾听才是核心。</p>
+        <a class="id-arrow" href="tarot.html">了解更多 →</a>
+      </div>
+      <div class="id-card reveal d1" style="cursor:pointer" onclick="location.href='volunteer.html'">
+        <span class="id-badge">独立页面</span>
+        <span class="id-icon">🌱</span>
+        <div class="id-name">志愿教育者</div>
+        <p class="id-desc">薪心公益创业团队——从校园社团到政府投资的独立团队。为佛山南海地区候鸟家庭的孩子们设计特殊课程：非遗文化、职业体验、区域地理。</p>
+        <a class="id-arrow" href="volunteer.html">了解更多 →</a>
+      </div>
+      <div class="id-card reveal d2">
+        <span class="id-icon">✨</span>
+        <div class="id-name">AI 内容创作者</div>
+        <p class="id-desc">用 AI 尝试数字展览、视频与音频创作，也在团队中扮演设计端与开发端之间的协调角色——从原型设计到项目管理，把想象变成落地的产品。</p>
+      </div>
+      <div class="id-card reveal d3">
+        <span class="id-icon">💬</span>
+        <div class="id-name">心理支持者</div>
+        <p class="id-desc">塔罗是媒介，共情是本质。为身边的人提供一个说出来的空间，有时候比给答案更珍贵。每一个脆弱的瞬间都值得被认真对待。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vibes">
+  <div class="vibes-blob"></div>
+  <div class="section-wrap">
+    <div class="reveal">
+      <span class="section-tag">03 · Vibes</span>
+      <h2 class="section-title">我的<em>日常频率</em></h2>
+    </div>
+    <div class="vibes-grid">
+      <div class="vibe-card enfp-card reveal">
+        <div class="enfp-big">ENFP</div>
+        <div class="enfp-content">
+          <div class="enfp-title">活动家 · The Campaigner</div>
+          <div class="enfp-subtitle">外向 · 直觉 · 情感 · 展望</div>
+          <div class="enfp-desc">充满热情与创意的自由灵魂。善于在不同想法间建立联系，以真诚的好奇心探索世界，既能深刻共情他人，也拥有改变现状的行动力。</div>
+          <div class="enfp-traits"><span class="enfp-trait">充满热情</span><span class="enfp-trait">富有创意</span><span class="enfp-trait">善于共情</span><span class="enfp-trait">自由探索</span></div>
+        </div>
+      </div>
+      <div class="vibe-card reveal d1">
+        <span class="vibe-icon">🎵</span>
+        <div class="vibe-name">流行 & R&B</div>
+        <div class="vibe-desc">音乐是最诚实的情绪出口。最爱 Ariana Grande 的《Twilight Zone》——那种飘渺又精准的感觉，像某种刚好说中的秘密。</div>
+      </div>
+      <div class="vibe-card reveal d2">
+        <span class="vibe-icon">🎬</span>
+        <div class="vibe-name">纪录片 & 电影</div>
+        <div class="vibe-desc">电影是效率最高的"他人人生体验包"。最爱《爱乐之城》——享受在别人的故事里产生共鸣与链接的时刻。</div>
+      </div>
+      <div class="vibe-card reveal d1">
+        <span class="vibe-icon">✈️</span>
+        <div class="vibe-name">旅行</div>
+        <div class="vibe-desc">旅行是对生活状态的重置键。在路上阅人无数，也在陌生的风景里，重新找到一个更松弛的自己。</div>
+      </div>
+      <div class="vibe-card reveal d2">
+        <span class="vibe-icon">🌸</span>
+        <div class="vibe-name">二次元</div>
+        <div class="vibe-desc">那些奇幻的故事与天马行空的设定，是对想象力最好的滋养。让肆意发散的脑子有地方去。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="now">
+  <div class="now-blob"></div>
+  <div class="section-wrap">
+    <div class="reveal">
+      <span class="section-tag">04 · Right now</span>
+      <h2 class="section-title">此刻，<em>我在。</em></h2>
+    </div>
+    <div class="now-grid">
+      <div>
+        <p style="font-family:var(--sans);font-size:0.9rem;color:var(--muted);line-height:1.9;max-width:380px" class="reveal d1">一个记录当下的地方。在学什么、在想什么、在听什么——不定期更新，比简历诚实。</p>
+        <ul class="now-list reveal d2">
+          <li class="now-item"><span class="now-cat">身份中</span><div><div class="now-val">从 AI 到认知科学</div><div class="now-sub">技术与人性之间，持续探索中</div></div></li>
+          <li class="now-item"><span class="now-cat">钻研中</span><div><div class="now-val">《易经》与周易体系</div><div class="now-sub">在古老的符号系统里寻找认知的另一种语言</div></div></li>
+          <li class="now-item"><span class="now-cat">思考中</span><div><div class="now-val">语言在解放我们，还是禁锢我们？</div><div class="now-sub">我们真正想说的，是否总在说出口时悄悄走形</div></div></li>
+          <li class="now-item"><span class="now-cat">在听</span><div><div class="now-val">Twilight Zone — Ariana Grande</div><div class="now-sub">循环中，停不下来的那种</div></div></li>
+        </ul>
+      </div>
+      <div class="now-right reveal d2">
+        <div class="now-feature"><div class="now-feature-label">📚 最近在读</div><div class="now-feature-title">易经</div><div class="now-feature-sub">不为占卜，为的是那套关于变化与系统的古老思维方式。</div></div>
+        <div class="now-feature"><div class="now-feature-label">🎬 最近在看</div><div class="now-feature-title">葬送的芙莉莲</div><div class="now-feature-sub">关于时间、告别与记忆的故事。安静又绵长，看完会留下很长的余韵。</div></div>
+        <div class="now-thought">"语言是我们触碰世界的方式，但它同时也是一道滤镜——我们真正想说的，是否总在说出口的瞬间，悄悄走形了？"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-blob"></div>
+  <div class="contact-inner reveal">
+    <p style="font-family:var(--sans);font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--warm);margin-bottom:1.5rem">05 · Contact</p>
+    <h2 class="contact-deco">来聊聊？<br><em>Let's talk.</em></h2>
+    <p class="contact-sub">AI、辩题、塔罗、纪录片，或者只是随便说说——我的收件箱随时开着。</p>
+    <a href="/cdn-cgi/l/email-protection#9bdfe9f5e8b6d7f2f7faf8dbf4eeeff7f4f4f0b5f8f4f6" class="btn">✉ <span class="__cf_email__" data-cfemail="f7b3859984dabb9e9b9694b79882839b98989cd994989a">[email&#160;protected]</span></a>
+  </div>
+</section>
+
+<div style="padding:2.5rem 3.5rem;text-align:center;border-top:1px solid var(--border)">
+  <p style="font-family:'Playfair Display',serif;font-size:0.95rem;font-style:italic;color:var(--muted2);letter-spacing:0.03em">— 还在更新，这个故事还在续写。 —</p>
+</div>
+<footer>
+  <span>© 2026 莱拉克 · Lilac Zha</span>
+  <span>Built with care & curiosity.</span>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>80),{passive:true});
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// Hero shimmer — light streaks over photo
+const c=document.getElementById('shimmerCanvas');
+const cx=c.getContext('2d');
+function resize(){c.width=c.offsetWidth;c.height=c.offsetHeight}
+resize();window.addEventListener('resize',resize,{passive:true});
+const streaks=Array.from({length:6},(_,i)=>({
+  x:Math.random(),y:Math.random()*0.8,
+  speed:0.00015+Math.random()*0.0002,
+  alpha:0.04+Math.random()*0.06,
+  w:80+Math.random()*160,phase:i*1.1
+}));
+let t=0;
+(function loop(){
+  cx.clearRect(0,0,c.width,c.height);
+  t+=0.004;
+  streaks.forEach(s=>{
+    s.x+=s.speed;if(s.x>1.3)s.x=-0.3;
+    const pulse=0.7+Math.sin(t+s.phase)*0.3;
+    const gx=s.x*c.width;const gy=s.y*c.height;
+    const g=cx.createLinearGradient(gx-s.w,gy,gx+s.w,gy+30);
+    g.addColorStop(0,'rgba(255,255,255,0)');
+    g.addColorStop(0.5,`rgba(255,255,255,$
